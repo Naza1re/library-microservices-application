@@ -19,6 +19,13 @@ public class LibraryController {
     public LibraryController(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
+    //For BookApi
+    @PostMapping("/add-book-record/{book_id}")
+    public HttpStatus addBookToLibraryRecord(@PathVariable Long book_id){
+        return libraryService.addBookRecord(book_id);
+    }
+    //For BookApi
+
 
     @GetMapping("/free")
     public ResponseEntity<List<Book>> getFreeBooks() throws LibraryNotFoundException, IOException {
@@ -28,4 +35,9 @@ public class LibraryController {
     public HttpStatus deleteLibraryRecordAboutBook(@PathVariable Long id) throws LibraryNotFoundException {
         return libraryService.deleteLibraryRecordAboutBook(id);
     }
+    @PutMapping("/{id}/update")
+    public ResponseEntity<Library> updateLibrary(@RequestBody Library library, @PathVariable Long id) throws LibraryNotFoundException {
+        return libraryService.updateLibrary(id,library);
+    }
+
 }

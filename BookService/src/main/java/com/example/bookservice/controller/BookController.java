@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.DELETE;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,9 +35,10 @@ public class BookController {
         return bookService.getBookByISBN(isbn);
     }
     @PostMapping("/add-book")
-    public ResponseEntity<Book> addBook(@RequestBody Book book){
+    public ResponseEntity<Book> addBook(@RequestBody Book book) throws IOException {
         return bookService.addBook(book);
     }
+
     @PutMapping("/{id}/update")
     public ResponseEntity<Book> updateBook(@PathVariable Long id,@RequestBody Book book) throws BookNotFoundException {
         return bookService.updateBook(id,book);

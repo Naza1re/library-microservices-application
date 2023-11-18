@@ -53,4 +53,25 @@ public class LibraryService {
             throw new LibraryNotFoundException("library record with bookId '"+id+"' not found");
 
     }
+
+    public HttpStatus addBookRecord(Long bookId) {
+        Library library = new Library();
+        library.setBookId(bookId);
+        libraryRepository.save(library);
+        return HttpStatus.OK;
+    }
+
+    public ResponseEntity<Library> updateLibrary(Long id, Library library) throws LibraryNotFoundException {
+
+        Optional<Library> opt_library = libraryRepository.findByBookId(id);
+        if(opt_library.isPresent()){
+            opt_library.get().setTookDate(library.getTookDate());
+            opt_library.get().setReturn_date(library.getReturn_date());
+            libraryRepository.save(opt_library.get());
+            return
+                    new ResponseEntity<>(opt_library.get(),HttpStatus.OK);
+        }
+        else
+            throw new LibraryNotFoundException("library record with id '"+id+"' not found");
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.bookservice.service;
 
+import com.example.bookservice.LibraryApi.LibraryApi;
 import com.example.bookservice.exception.BookNotFoundException;
 import com.example.bookservice.model.Book;
 import com.example.bookservice.repository.BookRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +52,9 @@ public class BookService {
 
     }
 
-    public ResponseEntity<Book> addBook(Book book) {
+    public ResponseEntity<Book> addBook(Book book) throws IOException {
         bookRepository.save(book);
+        LibraryApi.addBookInLibrary(book.getId());
         return new ResponseEntity<>(book,HttpStatus.OK);
     }
 
