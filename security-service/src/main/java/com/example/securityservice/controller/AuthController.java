@@ -1,7 +1,7 @@
 package com.example.securityservice.controller;
 
 import com.example.securityservice.dto.AuthRequest;
-import com.example.securityservice.exception.UserAuthNotFounException;
+import com.example.securityservice.exception.UserAuthNotFoundException;
 import com.example.securityservice.model.UserCredential;
 import com.example.securityservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +31,13 @@ public class AuthController {
         return authService.saveUser(userCredential);
     }
     @PostMapping("/token")
-    public String getToken(@RequestBody AuthRequest authRequest) throws UserAuthNotFounException {
+    public String getToken(@RequestBody AuthRequest authRequest) throws UserAuthNotFoundException {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if(authenticate.isAuthenticated()){
             return authService.generateToken(authRequest.getUsername());
-
         }
         else
-            throw new UserAuthNotFounException("user not registered");
+            throw new UserAuthNotFoundException("user not registered");
     }
 
     @GetMapping("/validate")

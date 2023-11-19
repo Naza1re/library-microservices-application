@@ -90,4 +90,13 @@ public class LibraryService {
         return new ResponseEntity<>(libraryDTOS,HttpStatus.OK);
     }
 
+    public ResponseEntity<LibraryDTO> getLibraryRecordById(Long id) throws LibraryNotFoundException {
+        Optional<Library> opt_library = libraryRepository.findById(id);
+        if(opt_library.isPresent()){
+            return new ResponseEntity<>(mapperConfig.modelMapper().map(opt_library.get(),LibraryDTO.class),HttpStatus.OK);
+        }
+        else
+            throw new LibraryNotFoundException("Library with id '"+id+"' not found");
+
+    }
 }

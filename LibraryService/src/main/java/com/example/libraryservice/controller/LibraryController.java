@@ -33,6 +33,10 @@ public class LibraryController {
     public ResponseEntity<List<LibraryDTO>> getAllLibrary() throws LibraryNotFoundException {
         return libraryService.getAllLibrary();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<LibraryDTO> getLibraryRecordById(@PathVariable Long id) throws LibraryNotFoundException {
+        return libraryService.getLibraryRecordById(id);
+    }
     @GetMapping("/free")
     public ResponseEntity<List<Book>> getFreeBooks(@RequestHeader("Authorization") String token) throws LibraryNotFoundException, IOException {
         return libraryService.getAllFreeBooks(token);
