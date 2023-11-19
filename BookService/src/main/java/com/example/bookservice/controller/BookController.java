@@ -1,5 +1,6 @@
 package com.example.bookservice.controller;
 
+import com.example.bookservice.dto.BookDTO;
 import com.example.bookservice.exception.BookNotFoundException;
 import com.example.bookservice.model.Book;
 import com.example.bookservice.service.BookService;
@@ -21,25 +22,25 @@ public class BookController {
         this.bookService = bookService;
     }
 
+
     @GetMapping("/all-books")
-    public ResponseEntity<List<Book>> getAllBooks(){
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
         return bookService.getAllBooks();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) throws BookNotFoundException {
+    public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) throws BookNotFoundException {
         return bookService.getBookById(id);
     }
     @GetMapping("/isbn/{isbn}")
-    public ResponseEntity<Book> getBookByISBN(@PathVariable String isbn) throws BookNotFoundException {
+    public ResponseEntity<BookDTO> getBookByISBN(@PathVariable String isbn) throws BookNotFoundException {
         return bookService.getBookByISBN(isbn);
     }
     @PostMapping("/add-book")
-    public ResponseEntity<Book> addBook(@RequestBody Book book,@RequestHeader("Authorization") String token) throws IOException {
+    public ResponseEntity<BookDTO> addBook(@RequestBody Book book,@RequestHeader("Authorization") String token) throws IOException {
         return bookService.addBook(book,token);
     }
-
     @PutMapping("/{id}/update")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id,@RequestBody Book book) throws BookNotFoundException {
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Long id,@RequestBody Book book) throws BookNotFoundException {
         return bookService.updateBook(id,book);
     }
     @DeleteMapping("{id}/delete")

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 @Setter
 public class Library {
     @Id

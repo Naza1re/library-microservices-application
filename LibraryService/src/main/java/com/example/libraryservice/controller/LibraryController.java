@@ -1,6 +1,7 @@
 package com.example.libraryservice.controller;
 
 import com.example.libraryservice.BookApi.Book;
+import com.example.libraryservice.dto.LibraryDTO;
 import com.example.libraryservice.exception.LibraryNotFoundException;
 import com.example.libraryservice.model.Library;
 import com.example.libraryservice.service.LibraryService;
@@ -19,6 +20,7 @@ public class LibraryController {
     public LibraryController(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
+
     //For BookApi
     @PostMapping("/add-book-record/{book_id}")
     public HttpStatus addBookToLibraryRecord(@PathVariable Long book_id){
@@ -27,6 +29,10 @@ public class LibraryController {
     //For BookApi
 
 
+    @GetMapping("/all-records")
+    public ResponseEntity<List<LibraryDTO>> getAllLibrary() throws LibraryNotFoundException {
+        return libraryService.getAllLibrary();
+    }
     @GetMapping("/free")
     public ResponseEntity<List<Book>> getFreeBooks(@RequestHeader("Authorization") String token) throws LibraryNotFoundException, IOException {
         return libraryService.getAllFreeBooks(token);
@@ -36,7 +42,7 @@ public class LibraryController {
         return libraryService.deleteLibraryRecordAboutBook(id);
     }
     @PutMapping("/{id}/update")
-    public ResponseEntity<Library> updateLibrary(@RequestBody Library library, @PathVariable Long id) throws LibraryNotFoundException {
+    public ResponseEntity<LibraryDTO> updateLibrary(@RequestBody Library library, @PathVariable Long id) throws LibraryNotFoundException {
         return libraryService.updateLibrary(id,library);
     }
 

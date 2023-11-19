@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface LibraryRepository extends JpaRepository<Library,Long> {
     Optional<List<Library>> findByTookDateIsNull();
     Optional<Library> findByBookId(Long id);
+
+    Optional<List<Library>> findAllBy();
 }
