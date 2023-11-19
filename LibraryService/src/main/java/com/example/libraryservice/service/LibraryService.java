@@ -25,8 +25,8 @@ public class LibraryService {
     }
 
 
-    public ResponseEntity<List<Book>> getAllFreeBooks() throws LibraryNotFoundException, IOException {
-        List<Book> listBook =  BookApi.getAllBooks();
+    public ResponseEntity<List<Book>> getAllFreeBooks(String token) throws LibraryNotFoundException, IOException {
+        List<Book> listBook =  BookApi.getAllBooks(token);
         Optional<List<Library>> opt_library = libraryRepository.findByTookDateIsNull();
 
         if(opt_library.isPresent()){

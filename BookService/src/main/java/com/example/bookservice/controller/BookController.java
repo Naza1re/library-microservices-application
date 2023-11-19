@@ -21,7 +21,6 @@ public class BookController {
         this.bookService = bookService;
     }
 
-
     @GetMapping("/all-books")
     public ResponseEntity<List<Book>> getAllBooks(){
         return bookService.getAllBooks();
@@ -35,8 +34,8 @@ public class BookController {
         return bookService.getBookByISBN(isbn);
     }
     @PostMapping("/add-book")
-    public ResponseEntity<Book> addBook(@RequestBody Book book) throws IOException {
-        return bookService.addBook(book);
+    public ResponseEntity<Book> addBook(@RequestBody Book book,@RequestHeader("Authorization") String token) throws IOException {
+        return bookService.addBook(book,token);
     }
 
     @PutMapping("/{id}/update")

@@ -28,8 +28,8 @@ public class LibraryController {
 
 
     @GetMapping("/free")
-    public ResponseEntity<List<Book>> getFreeBooks() throws LibraryNotFoundException, IOException {
-        return libraryService.getAllFreeBooks();
+    public ResponseEntity<List<Book>> getFreeBooks(@RequestHeader("Authorization") String token) throws LibraryNotFoundException, IOException {
+        return libraryService.getAllFreeBooks(token);
     }
     @DeleteMapping("/{id}/delete")
     public HttpStatus deleteLibraryRecordAboutBook(@PathVariable Long id) throws LibraryNotFoundException {

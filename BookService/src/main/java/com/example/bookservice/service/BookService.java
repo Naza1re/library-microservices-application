@@ -52,9 +52,10 @@ public class BookService {
 
     }
 
-    public ResponseEntity<Book> addBook(Book book) throws IOException {
+    public ResponseEntity<Book> addBook(Book book,String token) throws IOException {
         bookRepository.save(book);
-        LibraryApi.addBookInLibrary(book.getId());
+        LibraryApi.addBookInLibrary(book.getId(),token);
+        System.out.println(token);
         return new ResponseEntity<>(book,HttpStatus.OK);
     }
 
