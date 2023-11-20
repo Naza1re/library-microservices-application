@@ -14,6 +14,12 @@ git clone https://github.com/Naza1re/library-microservices-application.git
 ```
 create database booktestdb
 ```
+### Проверить в каждом сервисе соответствие username и password
+```
+spring.datasource.username=root
+spring.datasource.password=root
+```
+
 ## 4)Запустить проект
 
 Запускать по порядку
