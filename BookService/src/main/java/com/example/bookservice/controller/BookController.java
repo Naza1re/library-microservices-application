@@ -4,10 +4,13 @@ import com.example.bookservice.dto.BookDTO;
 import com.example.bookservice.exception.BookNotFoundException;
 import com.example.bookservice.model.Book;
 import com.example.bookservice.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import javax.ws.rs.DELETE;
 import java.io.IOException;
@@ -21,7 +24,6 @@ public class BookController {
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
-
 
     @GetMapping("/all-books")
     public ResponseEntity<List<BookDTO>> getAllBooks(){

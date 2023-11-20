@@ -1,12 +1,6 @@
 package com.example.libraryservice.BookApi;
 
 import lombok.*;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

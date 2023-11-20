@@ -7,6 +7,7 @@ import com.example.libraryservice.dto.ModelMapperConfig;
 import com.example.libraryservice.exception.LibraryNotFoundException;
 import com.example.libraryservice.model.Library;
 import com.example.libraryservice.repository.LibraryRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,11 @@ import java.util.stream.Collectors;
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;
-    private final ModelMapperConfig mapperConfig;
+    private final ModelMapper modelMapper;
     @Autowired
-    public LibraryService(LibraryRepository libraryRepository, ModelMapperConfig mapperConfig) {
+    public LibraryService(LibraryRepository libraryRepository, ModelMapper modelMapper) {
         this.libraryRepository = libraryRepository;
-        this.mapperConfig = mapperConfig;
+        this.modelMapper=modelMapper;
     }
 
 
@@ -73,7 +74,7 @@ public class LibraryService {
             opt_library.get().setTookDate(library.getTookDate());
             opt_library.get().setReturn_date(library.getReturn_date());
             libraryRepository.save(opt_library.get());
-            LibraryDTO libraryDTO = mapperConfig.modelMapper().map(opt_library.get(), LibraryDTO.class);
+            LibraryDTO libraryDTO = modelMapper.map(opt_library.get(), LibraryDTO.class);
             return
                     new ResponseEntity<>(libraryDTO,HttpStatus.OK);
         }
@@ -85,7 +86,7 @@ public class LibraryService {
     public ResponseEntity<List<LibraryDTO>> getAllLibrary(){
         List<Library> libraries = libraryRepository.findAll();
         List<LibraryDTO> libraryDTOS = libraries.stream()
-                .map(book -> mapperConfig.modelMapper().map(book, LibraryDTO.class))
+                .map(book ->modelMapper.map(book, LibraryDTO.class))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(libraryDTOS,HttpStatus.OK);
     }
@@ -93,7 +94,7 @@ public class LibraryService {
     public ResponseEntity<LibraryDTO> getLibraryRecordById(Long id) throws LibraryNotFoundException {
         Optional<Library> opt_library = libraryRepository.findById(id);
         if(opt_library.isPresent()){
-            return new ResponseEntity<>(mapperConfig.modelMapper().map(opt_library.get(),LibraryDTO.class),HttpStatus.OK);
+            return new ResponseEntity<>(modelMapper.map(opt_library.get(),LibraryDTO.class),HttpStatus.OK);
         }
         else
             throw new LibraryNotFoundException("Library with id '"+id+"' not found");

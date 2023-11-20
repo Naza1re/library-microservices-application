@@ -6,6 +6,7 @@ import com.example.bookservice.dto.ModelMapperConfig;
 import com.example.bookservice.exception.BookNotFoundException;
 import com.example.bookservice.model.Book;
 import com.example.bookservice.repository.BookRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final ModelMapperConfig modelMapper;
+    private final ModelMapper modelMapper;
     @Autowired
-    public BookService(BookRepository bookRepository, ModelMapperConfig modelMapper) {
+    public BookService(BookRepository bookRepository, ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.modelMapper = modelMapper;
     }
@@ -30,7 +31,7 @@ public class BookService {
     public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<Book> allBooks = (List<Book>) bookRepository.findAll();
         List<BookDTO> bookDTOs = allBooks.stream()
-                .map(book -> modelMapper.modelMapper().map(book, BookDTO.class))
+                .map(book -> modelMapper.map(book, BookDTO.class))
                 .collect(Collectors.toList());
 
         return
@@ -41,7 +42,7 @@ public class BookService {
     public ResponseEntity<BookDTO> getBookById(Long id) throws BookNotFoundException {
         Optional<Book> opt_book = bookRepository.findById(id);
         if(opt_book.isPresent()){
-            BookDTO bookDTO = modelMapper.modelMapper().map(opt_book.get(), BookDTO.class);
+            BookDTO bookDTO = modelMapper.map(opt_book.get(), BookDTO.class);
             return
                     new ResponseEntity<>(bookDTO,HttpStatus.OK);
         }
@@ -52,7 +53,7 @@ public class BookService {
     public ResponseEntity<BookDTO> getBookByISBN(String isbn) throws BookNotFoundException {
         Optional<Book> opt_book = bookRepository.getBookByIsbn(isbn);
         if(opt_book.isPresent()){
-            BookDTO bookDTO = modelMapper.modelMapper().map(opt_book.get(),BookDTO.class);
+            BookDTO bookDTO = modelMapper.map(opt_book.get(),BookDTO.class);
             return
                     new ResponseEntity<>(bookDTO,HttpStatus.OK);
 
@@ -64,7 +65,7 @@ public class BookService {
     public ResponseEntity<BookDTO> addBook(Book book,String token) throws IOException {
         bookRepository.save(book);
         LibraryApi.addBookInLibrary(book.getId(),token);
-        BookDTO bookDTO = modelMapper.modelMapper().map(book,BookDTO.class);
+        BookDTO bookDTO = modelMapper.map(book,BookDTO.class);
         return new ResponseEntity<>(bookDTO,HttpStatus.OK);
     }
 
@@ -77,7 +78,7 @@ public class BookService {
             opt_book.get().setIsbn(book.getIsbn());
             opt_book.get().setDescription(book.getDescription());
             bookRepository.save(opt_book.get());
-            BookDTO bookDTO = modelMapper.modelMapper().map(opt_book.get(),BookDTO.class);
+            BookDTO bookDTO = modelMapper.map(opt_book.get(),BookDTO.class);
 
             return
                     new ResponseEntity<>(bookDTO,HttpStatus.OK);
