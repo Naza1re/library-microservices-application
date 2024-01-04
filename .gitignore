@@ -10,7 +10,7 @@ target/
 .idea/libraries/
 *.iws
 *.iml
-.idea
+.idea/
 *.ipr
 
 ### Eclipse ###
