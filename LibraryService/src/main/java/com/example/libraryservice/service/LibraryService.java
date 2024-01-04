@@ -68,8 +68,9 @@ public class LibraryService {
     }
 
     public ResponseEntity<LibraryDTO> updateLibrary(Long id, Library library) throws LibraryNotFoundException {
-
+        //Поиск по айди книги
         Optional<Library> opt_library = libraryRepository.findByBookId(id);
+        System.out.println(opt_library.get().toString());
         if(opt_library.isPresent()){
             opt_library.get().setTookDate(library.getTookDate());
             opt_library.get().setReturn_date(library.getReturn_date());

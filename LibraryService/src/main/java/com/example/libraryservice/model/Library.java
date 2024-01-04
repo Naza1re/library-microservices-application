@@ -1,5 +1,6 @@
 package com.example.libraryservice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +21,8 @@ public class Library {
 
     @Column(name = "book_id")
     private Long bookId;
-
     @Column(name = "took_date")
     private LocalDate tookDate;
-
     @Column(name = "return_date")
     private LocalDate return_date;
 }
